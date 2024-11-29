@@ -286,6 +286,7 @@ const ListItemCart = () => {
         district: district.name,
         note,
         optionPay,
+        adress,
         listProduct: responseData,
       };
 
