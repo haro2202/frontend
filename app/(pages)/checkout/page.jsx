@@ -1,17 +1,17 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Header from '../../../../components/header/header'
-import NavBar from '../../../../components/nav-bar/nav_bar'
-import Footer from '../../../../components/footer/footer'
-import DetailPayment from '../../../../components/detail_payment/detail_payment'
+import Header from '../../../components/header/header'
+import NavBar from '../../../components/nav-bar/nav_bar'
+import Footer from '../../../components/footer/footer'
+import DetailPayment from '../../../components/detail_payment/detail_payment'
 import { Button } from '@/components/ui/button'
 import { UpOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux';
 
-const DetailPaymentPage = ({ params }) => {
-  const paymentData = params
-    ? JSON.parse(decodeURIComponent(params.checkoutId))
-    : null
+const DetailPaymentPage = () => {
+  const paymentData = useSelector((state) => state.checkout.checkoutData);
+
   const [isVisible, setIsVisible] = useState(false)
 
   const scrollToTop = () => {

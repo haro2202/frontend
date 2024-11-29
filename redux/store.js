@@ -1,5 +1,6 @@
 import authReducer from './auth/authSlice'
 import userReducer from './user/userSlice'
+import checkoutReducer from './checkout/checkoutSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import {
   persistStore,
@@ -17,12 +18,13 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['auth']
+  blacklist: ['auth', 'checkout']
 }
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  user: userReducer
+  user: userReducer,
+  checkout: checkoutReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

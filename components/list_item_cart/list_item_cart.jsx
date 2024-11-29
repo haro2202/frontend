@@ -24,7 +24,7 @@ import { notification } from "antd";
 import { useRouter } from "next/navigation";
 import { TbAddressBook } from "react-icons/tb";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch  } from "react-redux";
 import {
   Modal,
   ModalBody,
@@ -35,6 +35,7 @@ import {
 } from "@nextui-org/modal";
 import { AddressItem } from "../user-account/UI_component/address";
 import { getApi } from "@/lib/fetch";
+import { setCheckoutData } from '../../redux/checkout/checkoutSlice';
 
 const ListItemCart = () => {
   const user = useSelector((state) => state.user);
@@ -256,6 +257,7 @@ const ListItemCart = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  const dispatch = useDispatch();
   const handlePayment = () => {
     if (!priceMemo) {
       openNotificationWithIcon("error", "Vui lòng thêm hàng vào giỏ");
@@ -274,22 +276,24 @@ const ListItemCart = () => {
     else if (!isValidEmail())
       openNotificationWithIcon("error", "Email không hợp lệ");
     else {
-      router.push(
-        `/checkout/${encodeURIComponent(
-          JSON.stringify({
-            username: username,
-            phone: phone,
-            email: email,
-            adress: adress,
-            province: province.name,
-            city: city.name,
-            district: district.name,
-            note: note,
-            optionPay: optionPay,
-            listProduct: responseData,
-          })
-        )}`
-      );
+      console.log(responseData);
+      const checkoutData = {
+        username,
+        phone,
+        email,
+        province: province.name,
+        city: city.name,
+        district: district.name,
+        note,
+        optionPay,
+        listProduct: responseData,
+      };
+
+      // Save data to Redux store
+      dispatch(setCheckoutData(checkoutData));
+
+      // Navigate to the checkout page
+      router.push('/checkout');
     }
   };
   const handleUsernameChange = (e) => {
